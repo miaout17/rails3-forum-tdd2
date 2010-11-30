@@ -45,4 +45,16 @@ describe Forum do
     end
   end
 
+  it "updates forum's counter cache" do
+    post = Factory(:post)
+    forum_id = post.forum_id
+    forum = Forum.find(forum_id)
+
+    forum.posts_count.should == 1
+    post.destroy
+
+    forum.reload
+    forum.posts_count.should == 0
+  end
+
 end
