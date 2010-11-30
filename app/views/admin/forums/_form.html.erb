@@ -1,0 +1,16 @@
+<% if @forum.errors.any? %>
+  <div id="error_explanation">
+    <h2><%= pluralize(@forum.errors.count, "error") %>:</h2>
+
+    <ul>
+    <% @forum.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+<% end %>
+
+Title: <%= form.text_field(:title) %>
+
+<%= form.submit %>
+<%= link_to "Cancel", admin_forums_path %>
