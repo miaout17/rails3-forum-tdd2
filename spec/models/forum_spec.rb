@@ -8,7 +8,7 @@
 #  updated_at :datetime
 #
 
-require 'spec_helper'
+require File.expand_path("../../spec_helper.rb", __FILE__)
 
 describe Forum do
   before(:each) do

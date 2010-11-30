@@ -23,7 +23,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 
-require 'spec_helper'
+require File.expand_path("../../spec_helper.rb", __FILE__)
 
 describe User do
   it "could get its posts" do

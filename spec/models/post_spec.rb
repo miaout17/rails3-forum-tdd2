@@ -16,7 +16,7 @@
 #  index_posts_on_forum_id  (forum_id)
 #
 
-require 'spec_helper'
+require File.expand_path("../../spec_helper.rb", __FILE__)
 
 describe Post do
   before(:each) do
