@@ -18,7 +18,7 @@
 
 class Post < ActiveRecord::Base
 
-  belongs_to :forum
+  belongs_to :forum, :counter_cache => true
   belongs_to :user
 
   validates_presence_of :title, :description, :forum_id, :user_id
