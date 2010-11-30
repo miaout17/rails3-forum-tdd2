@@ -35,4 +35,17 @@ describe User do
     user.posts.count.should == 1
     user.posts.should include(post)
   end
+
+  it "is not admin by default" do
+    user = Factory(:user)
+    user.admin?.should == false
+  end
+
+  it "cannot modify its admin premission by params" do
+    user = Factory(:user)
+    params = { :admin => true }
+    user.update_attributes(params)
+    user.admin?.should == false
+  end
+
 end
