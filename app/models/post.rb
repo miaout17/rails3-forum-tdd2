@@ -28,6 +28,8 @@ class Post < ActiveRecord::Base
 
   has_attached_file :image
 
+  has_attached_file :image
+
   def editable_by?(user)
     self.user == user
   end
