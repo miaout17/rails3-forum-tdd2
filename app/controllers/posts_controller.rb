@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   before_filter :editable_required!, :only => [:edit, :update, :destroy]
 
   def index
-    @posts = @forum.posts
+    @posts = @forum.posts.paginate :per_page => 20, :page => params[:page]
   end
 
   def show

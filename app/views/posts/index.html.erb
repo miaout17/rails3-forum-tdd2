@@ -1,7 +1,6 @@
 <%= posts_menu %>
 
 <h2>Forum <%= @forum.title %>: Post List</h2>
-
 <table>
   <tr>
     <th>Title</th>
@@ -16,3 +15,4 @@
     </tr>
   <% end %>
 </table>
+<%= will_paginate @posts %>
