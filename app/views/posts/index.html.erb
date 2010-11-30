@@ -16,3 +16,7 @@
   <% end %>
 </table>
 <%= will_paginate @posts %>
+Sort by date: 
+<%= link_to("Descending", forum_posts_path(@forum)) %> |
+<%= link_to("Ascending", forum_posts_path(@forum, :rev => "1")) %> 
+
