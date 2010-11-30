@@ -57,8 +57,9 @@ describe PostsController do
       should_find_forum
       @posts = [mock_model(Post)]
       @forum.should_receive(:posts).and_return(@posts)
+      @posts.should_receive(:paginate).with(:per_page => 20, :page => 6).and_return(@posts)
 
-      get :index, :forum_id => 3
+      get :index, :forum_id => 3, :page => 6
 
       assigns(:forum).should eq( @forum )
       assigns(:posts).should eq( @posts )
