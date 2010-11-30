@@ -1,6 +1,9 @@
 require File.expand_path("../../spec_helper.rb", __FILE__)
+require File.expand_path("../../auth_spec_helper.rb", __FILE__)
 
 describe PostsController do
+
+  include AuthSpecHelperMethods
 
   def should_find_forum
     @forum = mock_model(Forum)
@@ -10,6 +13,16 @@ describe PostsController do
   def should_find_post
     @post  = mock_model(Post)
     controller.should_receive(:find_post ) { controller.instance_variable_set("@post",  @post)  }.ordered
+  end
+
+  def should_require_editable
+    @post.should_receive(:editable_by?).with(@current_user).and_return(true)
+  end
+
+  def should_redirect_without_edit_premission
+    @post.should_receive(:editable_by?).with(@current_user).and_return(false)
+    yield
+    response.should redirect_to(forum_post_path(@forum, @post))
   end
 
   describe "before_filter" do
@@ -68,6 +81,7 @@ describe PostsController do
 
   describe "GET new" do
     it "returns a new post form" do
+      should_authenticate_user
       should_find_forum
       @post  = mock_model(Post)
       @posts = []
@@ -84,6 +98,7 @@ describe PostsController do
 
   describe "POST create" do
     before :each do
+      should_authenticate_user
       should_find_forum
       @post  = mock_model(Post)
       @posts = []
@@ -91,6 +106,7 @@ describe PostsController do
 
       @forum.stub!(:posts).and_return(@posts)
       @posts.should_receive(:build).with(@params).and_return(@post)
+      @post.should_receive(:user=).with(@current_user)
     end
 
     it "creates successfully" do
@@ -113,9 +129,14 @@ describe PostsController do
   end
 
   describe "GET edit" do
-    it "returns requested post" do
+    before(:each) do
+      should_authenticate_user
       should_find_forum
       should_find_post
+    end
+    
+    it "returns requested post" do
+      should_require_editable
 
       get :edit, :forum_id => 4, :id => 3
 
@@ -123,16 +144,25 @@ describe PostsController do
       assigns(:post ).should eq( @post  )
       response.should render_template("edit")
     end
+
+    it "should redirect without edit premission" do
+      should_redirect_without_edit_premission do
+        delete :destroy, {:forum_id => 4, :id => 3}
+      end
+    end
+
   end
 
   describe "PUT update" do
     before :each do
+      should_authenticate_user
       should_find_forum
       should_find_post
       @params = { "title" => Faker::Lorem.sentence }
     end
 
     it "update successfully with valid params" do
+      should_require_editable
       @post.should_receive(:update_attributes).with(@params).and_return(true)
 
       get :update, {:forum_id => 4, :id => 3, :post => @params}
@@ -141,6 +171,7 @@ describe PostsController do
     end
 
     it "fails to update with invalid params" do
+      should_require_editable
       @post.should_receive(:update_attributes).with(@params).and_return(false)
 
       get :update, {:forum_id => 4, :id => 3, :post => @params}
@@ -149,18 +180,35 @@ describe PostsController do
       assigns(:post ).should eq(@post)
       response.should render_template("edit")
     end
+
+    it "should redirect without edit premission" do
+      should_redirect_without_edit_premission do
+        get :update, {:forum_id => 4, :id => 3, :post => @params}
+      end
+    end
   end
 
   describe "DELETE destroy" do
-    it "destroys the requested post" do
+    before(:each) do
+      should_authenticate_user
       should_find_forum
       should_find_post
+    end
+
+    it "destroys the requested post" do
+      should_require_editable
 
       @post.should_receive(:destroy).and_return(true)
 
       delete :destroy, {:forum_id => 4, :id => 3}
 
       response.should redirect_to(forum_posts_path(@forum))
+    end
+
+    it "should redirect without edit premission" do
+      should_redirect_without_edit_premission do
+        get :update, {:forum_id => 4, :id => 3, :post => @params}
+      end
     end
   end
 
