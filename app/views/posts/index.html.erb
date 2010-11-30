@@ -1,6 +1,18 @@
 <%= posts_menu %>
 
 <h2>Forum <%= @forum.title %>: Post List</h2>
-<% @posts.each do |post| %>
-<h3><%= link_to(post.title, forum_post_path(@forum, post)) %></h3>
-<% end %>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Created At</th>
+  </tr>
+  <% @posts.each do |post| %>
+    <tr>
+      <td><%= link_to(post.title, forum_post_path(@forum, post)) %></td>
+      <td><%= post.user.email %></td>
+      <td><%= post.created_at %></td>
+    </tr>
+  <% end %>
+</table>
