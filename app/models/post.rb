@@ -23,6 +23,9 @@ class Post < ActiveRecord::Base
 
   validates_presence_of :title, :description, :forum_id, :user_id
 
+  scope :sort_by_date, :order => "created_at DESC" 
+  scope :sort_by_date_rev, :order => "created_at ASC" 
+
   def editable_by?(user)
     self.user == user
   end
