@@ -2,10 +2,10 @@
 #
 # Table name: posts
 #
-#  id          :integer         not null, primary key
+#  id          :integer(4)      not null, primary key
 #  title       :string(255)
 #  description :text
-#  forum_id    :integer
+#  forum_id    :integer(4)
 #  created_at  :datetime
 #  updated_at  :datetime
 #
