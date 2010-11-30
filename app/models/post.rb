@@ -26,6 +26,8 @@ class Post < ActiveRecord::Base
   scope :sort_by_date, :order => "created_at DESC" 
   scope :sort_by_date_rev, :order => "created_at ASC" 
 
+  has_attached_file :image
+
   def editable_by?(user)
     self.user == user
   end
