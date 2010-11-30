@@ -1,0 +1,7 @@
+<%= post_menu %>
+
+<h2>Edit: <%= @post.title %></h2>
+
+<%= form_for([:admin, @forum, @post], :html => {:multipart => true}) do |form| %>
+  <%= render :partial => "form", :object => form %>
+<% end %>
