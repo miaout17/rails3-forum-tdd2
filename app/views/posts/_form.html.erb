@@ -14,6 +14,7 @@ Title: <%= form.text_field(:title) %>
 <br/>
 Description: <%= form.text_area(:description) %>
 <br/>
+<%= form.file_field(:image) %>
 
 <%= form.submit %>
 <%= link_to "Cancel", forum_posts_path(@forum) %>

@@ -2,6 +2,6 @@
 
 <h2>New Post:</h2>
 
-<% form_for @post, :url => forum_posts_path do |form| %>
+<%= form_for([@forum, @post], :html => {:multipart => true}) do |form| %>
   <%= render :partial => "form", :object => form %>
 <% end %>

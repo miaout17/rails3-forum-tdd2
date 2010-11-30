@@ -4,3 +4,5 @@
 <div>Author: <%= @post.user.email %></div>
 <div>Created At: <%= @post.created_at %></div>
 <p><%= simple_format @post.description %></p>
+<%= image_tag @post.image.url if @post.image.exists? %>
+
