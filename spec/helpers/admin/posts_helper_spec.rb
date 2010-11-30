@@ -1,15 +1,44 @@
 require 'spec_helper'
 
-# Specs in this file have access to a helper object that includes
-# the Admin::PostsHelper. For example:
-#
-# describe Admin::PostsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       helper.concat_strings("this","that").should == "this that"
-#     end
-#   end
-# end
 describe Admin::PostsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "menu" do
+    before :each do
+      @forum = mock_model(Forum)
+      assigns[:forum] = @forum
+    end
+
+    describe "#admin_new_post_menu" do
+      it "display the new_post menu" do
+        menu = helper.admin_new_post_menu
+
+        menu.should =~ /#{admin_forum_posts_path(@forum)}/
+      end
+    end
+
+    describe "#admin_post_menu" do
+
+      it "display the post menu" do
+        @forum = mock_model(Forum)
+        @post = mock_model(Post)
+
+        assigns[:post] = @post
+        menu = helper.admin_post_menu
+
+        menu.should =~ /#{admin_forum_posts_path(@forum)}/
+        menu.should =~ /#{edit_admin_forum_post_path(@forum, @post)}/
+        menu.should =~ /delete/ # the spec is inaccuracy but works
+      end
+    end
+
+    describe "#posts_menu" do
+      it "display the posts menu" do
+        menu = helper.admin_posts_menu
+
+        menu.should =~ /#{admin_forums_path}/
+        menu.should =~ /#{edit_admin_forum_path(@forum)}/
+        menu.should =~ /#{admin_forum_path(@forum)}/
+      end
+    end
+  end
+
 end

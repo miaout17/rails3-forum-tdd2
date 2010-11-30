@@ -1,0 +1,19 @@
+<%= admin_posts_menu %>
+
+<h2>Forum <%= @forum.title %>: Post List</h2>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Author</th>
+    <th>Created At</th>
+  </tr>
+  <% @posts.each do |post| %>
+    <tr>
+      <td><%= link_to(post.title, admin_forum_post_path(@forum, post)) %></td>
+      <td><%= post.user.email %></td>
+      <td><%= post.created_at %></td>
+    </tr>
+  <% end %>
+</table>
+<%= will_paginate @posts %>
+
