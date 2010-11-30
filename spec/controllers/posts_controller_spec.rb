@@ -53,10 +53,11 @@ describe PostsController do
   end
 
   describe "GET index" do
-    it "returns all posts" do
+    it "returns posts sorted by date" do
       should_find_forum
       @posts = [mock_model(Post)]
       @forum.should_receive(:posts).and_return(@posts)
+      @posts.should_receive(:sort_by_date).and_return(@posts)
       @posts.should_receive(:paginate).with(:per_page => 20, :page => 6).and_return(@posts)
 
       get :index, :forum_id => 3, :page => 6
@@ -65,6 +66,21 @@ describe PostsController do
       assigns(:posts).should eq( @posts )
       response.should render_template("index")
     end
+
+    it "returns posts sorted by date in reverse order" do
+      should_find_forum
+      @posts = [mock_model(Post)]
+      @forum.should_receive(:posts).and_return(@posts)
+      @posts.should_receive(:sort_by_date_rev).and_return(@posts)
+      @posts.should_receive(:paginate).with(:per_page => 20, :page => 6).and_return(@posts)
+
+      get :index, :forum_id => 3, :page => 6, :rev => 1
+
+      assigns(:forum).should eq( @forum )
+      assigns(:posts).should eq( @posts )
+      response.should render_template("index")
+    end
+
   end
 
   describe "GET show" do
