@@ -78,4 +78,28 @@ describe Post do
     user.posts.should include post
   end
 
+  describe "could be sorted by named_scope" do
+    before(:each) do
+      @forum = Factory(:forum)
+      @user = Factory(:user)
+      @all_posts = []
+      now_time = Time.now
+      1.upto(9) do |i|
+        post_time = now_time - i.minutes
+        post = Factory(:post, :forum => @forum, :user => @user, :created_at => post_time)
+        @all_posts << post
+      end
+    end
+
+    it "#sort_by_date" do
+      posts = @forum.posts.sort_by_date
+      posts.should eq(@all_posts)
+    end
+        
+    it "#sort_by_date_rev" do
+      posts = @forum.posts.sort_by_date_rev
+      posts.should eq(@all_posts.reverse)
+    end
+  end
+
 end
