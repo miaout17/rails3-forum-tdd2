@@ -1,0 +1,15 @@
+<%= admin_forums_menu %>
+
+<h2>Forum List</h2>
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Number of posts</th>
+  </tr>
+  <% @forums.each do |forum| %>
+    <tr>
+      <td><%= link_to(forum.title, admin_forum_posts_path(forum)) %></td>
+      <td><%= forum.posts_count %></td>
+    </tr>
+  <% end %>
+</table>

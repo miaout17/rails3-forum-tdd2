@@ -1,15 +1,31 @@
 require 'spec_helper'
 
-# Specs in this file have access to a helper object that includes
-# the Admin::ForumsHelper. For example:
-#
-# describe Admin::ForumsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       helper.concat_strings("this","that").should == "this that"
-#     end
-#   end
-# end
 describe Admin::ForumsHelper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  describe "#admin_new_forum_menu" do
+    it "display the new_forum menu" do
+      menu = helper.admin_new_forum_menu
+
+      menu.should =~ /#{admin_forums_path}/
+    end
+  end
+
+  describe "#admin_forum_menu" do
+    it "display the forum menu" do
+      @forum = mock_model(Forum)
+      assigns[:forum] = @forum
+      menu = helper.admin_forum_menu
+
+      menu.should =~ /#{admin_forums_path}/
+      menu.should =~ /#{edit_admin_forum_path(@forum)}/
+      menu.should =~ /#{admin_forum_path(@forum)}/
+    end
+  end
+
+  describe "#forums_menu" do
+    it "display the forums menu" do
+      menu = helper.admin_forums_menu
+
+      menu.should =~ /#{new_admin_forum_path}/
+    end
+  end
 end

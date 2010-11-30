@@ -1,0 +1,8 @@
+<%= admin_forum_menu %>
+
+<h2>Edit: <%= @forum.title %></h2>
+
+<% form_for @forum, :url => admin_forum_path(@forum) do |form| %>
+  <%= render :partial => "form", :object => form %>
+<% end %>
+

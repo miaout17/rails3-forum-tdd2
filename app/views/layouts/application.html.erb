@@ -8,6 +8,11 @@
 </head>
 <body>
 
+<%= link_to("Home", "/") %>
+<% if user_signed_in? and current_user.admin? %>
+  <%= link_to("Admin", admin_forums_path) %>
+<% end %>
+
 <%= auth_menu %>
 
 <p class="notice"><%= notice %></p>
