@@ -4,6 +4,8 @@ gem 'rails', '3.0.0'
 
 gem 'devise'
 
+gem "will_paginate", "~> 3.0.pre2"
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
