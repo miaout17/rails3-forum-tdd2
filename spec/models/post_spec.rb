@@ -23,7 +23,8 @@ describe Post do
     @params = {
       :title       => Faker::Lorem.sentence,
       :description => Faker::Lorem.sentence,
-      :forum_id    => 4
+      :forum_id    => 4, 
+      :user_id     => 7
     }
   end
 
@@ -43,6 +44,10 @@ describe Post do
     Post.new(@params.except(:forum_id)).should_not be_valid
   end
 
+  it "is invalid without user_id" do
+    Post.new(@params.except(:user_id)).should_not be_valid
+  end
+
   it "could get its forum" do
     post = Factory(:post)
 
@@ -50,6 +55,27 @@ describe Post do
     forum.should_not be nil
 
     forum.posts.should include post
+  end
+
+  it "should be editable by its author" do
+    post = Factory(:post)
+    author = post.user
+    post.editable_by?(author).should be true
+  end
+
+  it "shouldn't be editable by other users" do
+    post = Factory(:post)
+    other_user = Factory(:user)
+    post.editable_by?(other_user).should be false
+  end
+
+  it "could get its user" do
+    post = Factory(:post)
+
+    user = post.user
+    user.should_not be nil
+
+    user.posts.should include post
   end
 
 end

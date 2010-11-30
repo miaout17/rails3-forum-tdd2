@@ -26,5 +26,12 @@
 require 'spec_helper'
 
 describe User do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it "could get its posts" do
+    user = Factory(:user)
+    post = Factory.build(:post, :user => user)
+    post.save
+    user.reload
+    user.posts.count.should == 1
+    user.posts.should include(post)
+  end
 end
