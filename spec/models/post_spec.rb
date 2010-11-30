@@ -40,4 +40,14 @@ describe Post do
   it "is invalid without forum_id" do
     Post.new(@params.except(:forum_id)).should_not be_valid
   end
+
+  it "could get its forum" do
+    post = Factory(:post)
+
+    forum = post.forum
+    forum.should_not be nil
+
+    forum.posts.should include post
+  end
+
 end
