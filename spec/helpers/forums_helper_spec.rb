@@ -16,16 +16,12 @@ describe ForumsHelper do
       menu = helper.forum_menu
 
       menu.should =~ /#{forums_path}/
-      menu.should =~ /#{edit_forum_path(@forum)}/
-      menu.should =~ /#{forum_path(@forum)}/
     end
   end
 
   describe "#forums_menu" do
     it "display the forums menu" do
       menu = helper.forums_menu
-
-      menu.should =~ /#{new_forum_path}/
     end
   end
 end
