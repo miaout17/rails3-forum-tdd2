@@ -17,7 +17,14 @@
 #
 
 class Post < ActiveRecord::Base
-  belongs_to :forum
 
-  validates_presence_of :title, :description, :forum_id
+  belongs_to :forum
+  belongs_to :user
+
+  validates_presence_of :title, :description, :forum_id, :user_id
+
+  def editable_by?(user)
+    self.user == user
+  end
+
 end
